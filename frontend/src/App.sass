@@ -1,0 +1,40 @@
+@import './components/ui/styles'
+
+/////////////////////////////
+// App start >
+
+.App
+  .top-bar.container
+    margin-bottom: $step6
+
+  a.nav-link
+    text-decoration: none
+    color: $color-main
+
+  .action
+    color: $color-main
+    &:first-child
+      margin-right: $step1
+
+  .menu-item
+    &:first-child
+      margin-right: $step1
+    a
+      @extend .boxShadow1
+      &.active
+        background-color: $color-main
+        color: white
+
+  .container
+    margin: $step3 $step5
+    padding: $step3
+
+  .wrapper
+    padding: 0 $step2
+
+  .table-wrapper
+    .table-topbar
+      text-align: right
+
+// App end >
+/////////////////////////////

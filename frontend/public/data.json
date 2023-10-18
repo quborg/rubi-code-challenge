@@ -1,0 +1,42 @@
+{
+  "projects": [
+    {
+      "label": "label 1",
+      "description": "Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface.",
+      "status": "OPEN",
+      "starting_date": "11/02/2023",
+      "ending_date": "10/31/2024",
+      "created_at": "11/02/2023",
+      "updated_at": "11/02/2023"
+    },
+    {
+      "label": "label 2",
+      "description": "Lorem ipsum may be used as a placeholder before final copy is available.",
+      "status": "CLOSED",
+      "starting_date": "11/15/2022",
+      "ending_date": "05/30/2023",
+      "created_at": "11/02/2023",
+      "updated_at": "11/02/2023"
+    }
+  ],
+  "tasks": [
+    {
+      "label": "label 1",
+      "description": "Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface.",
+      "starting_date": "11/02/2023",
+      "ending_date": "09/31/2024",
+      "created_at": "11/02/2023",
+      "updated_at": "11/02/2023",
+      "project": "project 1"
+    },
+    {
+      "label": "label 2",
+      "description": "Lorem ipsum may be used as a placeholder before final copy is available.",
+      "starting_date": "12/01/2022",
+      "ending_date": "02/31/2023",
+      "created_at": "11/02/2023",
+      "updated_at": "11/02/2023",
+      "project": "project 2"
+    }
+  ]
+}
