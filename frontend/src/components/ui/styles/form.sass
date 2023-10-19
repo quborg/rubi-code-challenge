@@ -7,3 +7,11 @@ form
 
     label
       margin-bottom: $step1
+    
+    input[readonly], textarea[readonly]
+      background-color: #DDD
+      cursor: not-allowed
+
+    input, textarea
+      @extend .boxShadow0
+      border: none

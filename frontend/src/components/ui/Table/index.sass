@@ -14,10 +14,14 @@ table
     font-size: small
     text-align: left
     text-transform: capitalize
-    td, th
-      padding: $step1 $step2
-    .description
+    &.start.date, &.end.date, &.createdAt, &.updatedAt
+      width: 90px
+    &.actions
+      width: 50px
+    &.description
       width: $Per40
+  td, th
+    padding: $step1 $step2
 
 // Table end >
 /////////////////////////////

@@ -1,14 +1,32 @@
-export default function projectReducer(state = [], action) {
+const imitial_state = {
+  data: [],
+  message: '',
+  success: null,
+  error: null,
+}
 
+export default function projectReducer(state = imitial_state, action) {
   switch (action.type) {
     case 'GET_PROJECTS':
-      return action.payload;
+      return {
+        ...state,
+        data: action.payload
+      };
     case 'CREATE_PROJECT':
-      return action.payload;
+      return {
+        ...state,
+        data: [ action.payload, ...state.data ],
+      };
     case 'UPDATE_PROJECT':
-      return action.payload;
+      return {
+        ...state,
+        data: state.data.map(item => action.payload._id === item._id ? action.payload : item),
+      };
     case 'DELETE_PROJECT':
-      return action.payload;
+      return {
+        ...state,
+        data: state.data.filter(item => action.payload._id !== item._id),
+      };
     default:
       return state;
   }

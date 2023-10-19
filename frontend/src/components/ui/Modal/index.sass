@@ -68,12 +68,12 @@ $dialog-width: 350px
     align-items: center
     justify-content: space-between
     padding: $step2
-    // border-top-left-radius: $step2
-    // border-top-right-radius: $step2
 
   &-title
     margin-bottom: 0
     font-size: $step3
+    svg
+      margin-right: $step1
 
   &-body
     position: relative
@@ -87,7 +87,8 @@ $dialog-width: 350px
     align-items: center
     justify-content: flex-end
     padding: $step2
-    // border-top-radius: $step1
+    .btn:first-child
+      margin-right: $step2
 
   > *
     margin: $step1 * .5

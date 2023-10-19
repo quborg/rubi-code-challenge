@@ -3,10 +3,10 @@ const Schema = mongoose.Schema;
 
 const taskSchema = new Schema({
   label: { type: String, required: true },
-  description: { type: String },
+  description: { type: String, required: true },
   project: { type: Schema.Types.ObjectId, ref: 'Project', required: true },
-  starting_date: { type: Date, required: true },
-  ending_date: { type: Date, required: true },
+  start_date: { type: Date, required: true },
+  end_date: { type: Date, required: true },
 }, {
   timestamps: true
 });

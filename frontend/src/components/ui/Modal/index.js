@@ -10,7 +10,7 @@ const NewModal = (props) => {
 
   useEffect(() => {
     if(props.open !== open) setOpen(props.open)
-  }, [props.open]);
+  }, [props.open, open]);
 
   const close = () => {
     setOpen(false);

@@ -1,8 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Table, Button, Modal } from '../ui';
-import { getProjects, createProject } from '../../redux/actions';
+import { getProjects, createProject, updateProject, deleteProject } from '../../redux/actions/project';
 import Form from './Form';
+
+const TODAY = (new Date()).toISOString().split('T')[0];
+const INITIAL_FORM = {
+  label: '',
+  description: '',
+  start_date: TODAY,
+  end_date: TODAY,
+};
 
 class Projects extends Component {
   constructor(props) {
@@ -14,7 +22,7 @@ class Projects extends Component {
         title: '',
         onConfirmLabel: ''
       },
-      projects: []
+      form: INITIAL_FORM
     }
   }
 
@@ -23,63 +31,98 @@ class Projects extends Component {
   }
 
   onCreate = () => {
-    this.props.createProject();
+    this.props.createProject(this.state.form);
   }
 
-  onEdit = _id => {
-    console.log("editing", _id)
+  onUpdate = () => {
+    this.props.updateProject(this.state.form);
   }
 
-  onDelete = _id => {
-    console.log("deleting", _id)
+  onDelete = () => {
+    this.props.deleteProject(this.state.form);
   }
 
-  openModal = (type) => {
+  openModal = (type, item) => {
     switch (type) {
       case 'create':
-        this.setState({ 
+        this.setState({
           modal: {
             open: true,
-            action: 'create',
+            action: type,
             title: <div>
               <i className='fas fa-flag' />
-              <span>Add new project</span>
+              <span>Create project</span>
               <div><small>Fill your project attributs</small></div>
             </div>,
             onConfirmLabel: 'save'
           }
         })
         break;
-    
+      case 'update':
+        this.setState({
+          modal: {
+            open: true,
+            action: type,
+            title: <div>
+              <i className='fas fa-flag' />
+              <span>Update project</span>
+              <div><small>Put your project changes</small></div>
+            </div>,
+            onConfirmLabel: 'save'
+          },
+          form: item
+        })
+        break;
+      case 'delete':
+        this.setState({
+          modal: {
+            open: true,
+            action: type,
+            title: <div>
+              <i className='fas fa-flag' />
+              <span>Delete project</span>
+              <div><small>This operation is reversible</small></div>
+            </div>,
+            onConfirmLabel: 'delete'
+          },
+          form: item
+        })
+        break;
+
       default:
         break;
     }
   }
 
   closeModal = () => {
-    this.setState({ modal: { open: false } })
+    this.setState({ modal: { open: false }, form: INITIAL_FORM })
   }
 
-  onConfirm = () => {
+  onConfirmModal = () => {
     switch (this.state.modal.action) {
       case 'create': this.onCreate(); break;
       case 'update': this.onUpdate(); break;
       case 'delete': this.onDelete(); break;
-    
+
       default:
         break;
     }
+    this.closeModal();
+  }
+
+  onChangeForm = (e) => {
+    this.setState({
+      form: {
+        ...this.state.form,
+        [e.target.name]: e.target.value
+      }
+    })
   }
 
   render() {
     const data = this.props.projects;
-    let schemaKeys, columns;
-
-    if (data && data.length) {
-      schemaKeys = Object.keys(data[0]);
-      delete schemaKeys._id;
-      columns = schemaKeys.map(i => i.replace("_", " "));
-    }
+    const columns = ['label', 'description', 'started At', 'ended At', 'created At', 'updated At'];
+    const schemaKeys = ['label', 'description', 'start_date', 'end_date', 'createdAt', 'updatedAt'];
 
     return (
       <div className='table-wrapper'>
@@ -87,22 +130,31 @@ class Projects extends Component {
           <Button label='New Project' icon='plus' onClick={() => this.openModal('create')} color='secondary' />
         </div>
         <br />
-        <Table {...{columns, data, onEdit: this.onEdit, onDelete: this.onDelete, schemaKeys}} />
-        <Modal {...{...this.state.modal}} onConfirm={this.onConfirm} closeModal={this.closeModal}>
-          <Form type='project' />
-        </Modal>
+        <Table
+          columns={columns}
+          schemaKeys={schemaKeys}
+          data={data}
+          onUpdate={(item) => this.openModal('update', item)}
+          onDelete={(item) => this.openModal('delete', item)}
+        />
+
+        { this.state.modal.open && <Modal {...{ ...this.state.modal }} onConfirm={this.onConfirmModal} closeModal={this.closeModal}>
+          <Form data={this.state.form} onChange={this.onChangeForm} readonly={this.state.modal.action === 'delete'} />
+        </Modal> }
       </div>
     );
   }
 }
 
 const mapStateToProps = (state) => {
-  return { projects: state.projects }
+  return { projects: state.projects.data }
 }
 
 export default connect(
-  mapStateToProps, { 
-    getProjects,
-    createProject,
-  }
+  mapStateToProps, {
+  getProjects,
+  createProject,
+  updateProject,
+  deleteProject,
+}
 )(Projects);
